@@ -90,7 +90,12 @@ print("\n" + "=" * 60)
 print("Q5 — Add 'grade' column")
 print("=" * 60)
 
-df["grade"] = pd.cut(df["score"], bins=[0, 70, 80, 90, 101], labels=["F", "C", "B", "A"], right=False)
+df["grade"] = pd.cut(
+    df["score"], 
+    bins=[0, 70, 80, 90, 101],     # Boundaries: Define the score ranges for each grade: [0,70), [70,80), [80,90), [90,101)
+    labels=["F", "C", "B", "A"],   
+    right=False         # Specify that the intervals are left-inclusive and right-exclusive: [0,70), [70,80), [80,90), [90,101)
+    )
 print(df[["student", "score", "grade"]].to_string(index=False))
 
 # ============================================================
@@ -106,6 +111,6 @@ grade_dist = (
     df.groupby("course")["grade"]
     .value_counts()
     .unstack(fill_value=0)
-    [["A", "B", "C", "F"]]
+    [["A", "B", "C", "F"]]  # Reorder columns to ensure consistent grade order
 )
 print(grade_dist.to_string())
